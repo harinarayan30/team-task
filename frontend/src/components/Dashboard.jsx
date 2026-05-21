@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { apiFetch } from '../api';
 
 export default function Dashboard({ setCurrentView, setActiveProject, projects }) {
   const { token, user } = useAuth();
@@ -10,7 +11,7 @@ export default function Dashboard({ setCurrentView, setActiveProject, projects }
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch('/api/dashboard/stats', {
+        const response = await apiFetch('/api/dashboard/stats', {
           headers: {
             'Authorization': `Bearer ${token}`
           }

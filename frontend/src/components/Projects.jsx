@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { apiFetch } from '../api';
 
 export default function Projects({ projects, setProjects, setActiveProject, setCurrentView }) {
   const { token, user } = useAuth();
@@ -30,7 +31,7 @@ export default function Projects({ projects, setProjects, setActiveProject, setC
     setFormError(null);
 
     try {
-      const response = await fetch('/api/projects', {
+      const response = await apiFetch('/api/projects', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

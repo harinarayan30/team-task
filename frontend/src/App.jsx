@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { apiFetch } from './api';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
 import Projects from './components/Projects';
@@ -28,7 +29,7 @@ function MainApp() {
     if (!token) return;
     setProjectsLoading(true);
     try {
-      const response = await fetch('/api/projects', {
+      const response = await apiFetch('/api/projects', {
         headers: {
           'Authorization': `Bearer ${token}`
         }

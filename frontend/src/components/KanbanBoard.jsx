@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { apiFetch } from '../api';
 import TaskModal from './TaskModal';
 
 export default function KanbanBoard({ activeProject, setActiveProject, onProjectDeleted }) {
@@ -20,7 +21,7 @@ export default function KanbanBoard({ activeProject, setActiveProject, onProject
 
   const fetchProjectDetails = async () => {
     try {
-      const response = await fetch(`/api/projects/${activeProject._id}`, {
+      const response = await apiFetch(`/api/projects/${activeProject._id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -57,7 +58,7 @@ export default function KanbanBoard({ activeProject, setActiveProject, onProject
     setInviteError(null);
 
     try {
-      const response = await fetch(`/api/projects/${activeProject._id}/members`, {
+      const response = await apiFetch(`/api/projects/${activeProject._id}/members`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -87,7 +88,7 @@ export default function KanbanBoard({ activeProject, setActiveProject, onProject
     }
 
     try {
-      const response = await fetch(`/api/projects/${activeProject._id}/members/${userId}`, {
+      const response = await apiFetch(`/api/projects/${activeProject._id}/members/${userId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -114,7 +115,7 @@ export default function KanbanBoard({ activeProject, setActiveProject, onProject
     }
 
     try {
-      const response = await fetch(`/api/projects/${activeProject._id}`, {
+      const response = await apiFetch(`/api/projects/${activeProject._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

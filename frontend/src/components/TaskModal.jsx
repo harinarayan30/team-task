@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { apiFetch } from '../api';
 
 export default function TaskModal({ mode, task, project, onClose, onSaved }) {
   const { token, user } = useAuth();
@@ -86,7 +87,7 @@ export default function TaskModal({ mode, task, project, onClose, onSaved }) {
         : `/api/tasks/${task._id}`;
       const method = mode === 'create' ? 'POST' : 'PUT';
 
-      const response = await fetch(url, {
+      const response = await apiFetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -114,7 +115,7 @@ export default function TaskModal({ mode, task, project, onClose, onSaved }) {
     
     setLoading(true);
     try {
-      const response = await fetch(`/api/tasks/${task._id}`, {
+      const response = await apiFetch(`/api/tasks/${task._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
