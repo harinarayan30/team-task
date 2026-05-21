@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const connectDB = require('./config/db');
@@ -22,17 +23,23 @@ app.use('/api/dashboard', require('./routes/dashboard'));
 
 // Serve static assets in production
 const frontendDistPath = path.join(__dirname, '../frontend/dist');
-app.use(express.static(frontendDistPath));
+const frontendIndexPath = path.join(frontendDistPath, 'index.html');
 
-// In production, any unmatched GET requests are served the frontend React build
-if (process.env.NODE_ENV === 'production') {
+if (fs.existsSync(frontendDistPath)) {
+  app.use(express.static(frontendDistPath));
+
+  // In production, any unmatched GET requests are served the frontend React build
   app.get('*', (req, res) => {
-    res.sendFile(path.join(frontendDistPath, 'index.html'));
+    if (fs.existsSync(frontendIndexPath)) {
+      res.sendFile(frontendIndexPath);
+    } else {
+      res.status(404).json({ message: 'Frontend build not found. Run npm run build.' });
+    }
   });
 } else {
-  // Test root route for development API status check
+  // Fallback: no frontend build available
   app.get('/', (req, res) => {
-    res.json({ message: 'Team Task Manager API is running in development...' });
+    res.json({ message: 'Team Task Manager API is running...' });
   });
 }
 
