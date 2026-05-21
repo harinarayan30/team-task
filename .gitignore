@@ -12,6 +12,8 @@ dist/
 backend/.env
 frontend/.env
 *.env
+# Allow production env (needed for Render build)
+!frontend/.env.production
 
 # OS files
 .DS_Store
